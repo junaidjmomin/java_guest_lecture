@@ -23,7 +23,7 @@ public class StudentRegistrationApp extends Application {
     @Override
     public void start(Stage stage) {
 
-        // STEP 1: Create the controls that the user sees.
+        
         // Label displays text; TextField accepts typed input; Button is clickable.
         Label heading = new Label("Student Registration");
 
@@ -39,7 +39,7 @@ public class StudentRegistrationApp extends Application {
         Button save = new Button("Save Student");
         Label status = new Label("Fill the fields and click Save.");
 
-        // STEP 2: Handle the Save button click.
+        
         // setOnAction() registers code to run when the user clicks this button.
         save.setOnAction(event -> {
 
@@ -56,7 +56,7 @@ public class StudentRegistrationApp extends Application {
                 return; // Exit this button-click handler, not the whole application
             }
 
-            // STEP 3: Convert and validate the marks.
+            
             // TextField gives us text, but the database column stores an integer.
             int score;
             try {
@@ -72,20 +72,20 @@ public class StudentRegistrationApp extends Application {
                 return;
             }
 
-            // STEP 4: Prepare the database connection and SQL command.
+           
             // localhost = this computer; 3306 = MySQL's usual port;
             // studentdb = database created by sql/setup.sql.
             String url = "jdbc:mysql://localhost:3306/studentdb";
 
-            // Read credentials from environment variables, not from the source file.
-            String user = System.getenv("DB_USER");
-            String password = System.getenv("DB_PASSWORD");
+            
+            String user = "root";
+            String password = "YOUR_MYSQL_PASSWORD";
 
             // INSERT adds a new row to the students table.
             // Each ? is a placeholder for one value we will supply safely below.
             String sql = "INSERT INTO students (name, email, marks) VALUES (?, ?, ?)";
 
-            // STEP 5: Connect to MySQL and send the INSERT command.
+            
             // DriverManager opens the JDBC Connection.
             // PreparedStatement stores the SQL command and its parameters.
             // try-with-resources automatically closes both objects afterward.
@@ -101,7 +101,7 @@ public class StudentRegistrationApp extends Application {
                 // It returns the number of rows affected; here we don't use it.
                 ps.executeUpdate();
 
-                // STEP 6: Give feedback and clear inputs after a successful save.
+                
                 status.setText("Student saved successfully!");
                 name.clear();
                 email.clear();
@@ -112,7 +112,7 @@ public class StudentRegistrationApp extends Application {
             }
         });
 
-        // STEP 7: Arrange the controls vertically.
+        
         // VBox(10, ...) uses 10 pixels of spacing between child elements.
         VBox root = new VBox(10,
                 heading,
@@ -122,7 +122,7 @@ public class StudentRegistrationApp extends Application {
                 save, status);
         root.setPadding(new Insets(20)); // 20 pixels inside the outer edge
 
-        // STEP 8: Put the layout inside a Scene, then show the Stage.
+        
         // Stage = window; Scene = content area; VBox = layout holding controls.
         stage.setScene(new Scene(root, 400, 400));
         stage.setTitle("JavaFX + JDBC Hands-on");
